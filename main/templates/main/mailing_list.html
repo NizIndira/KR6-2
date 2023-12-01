@@ -1,0 +1,69 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div>
+        <div class="row mt-2">
+            <div class="col m-2"><br>
+                <h2 align="center">Все ваши рассылки</h2>
+                <p align="center">Начните сооздавать вашу первую рассылку с создания нового привлекательного сообщения
+                    и добавления списка получателей</p><br>
+                <div class="row mt-2">
+                    <div class="col m-2">
+                        <a class="btn btn-outline-primary" href="{% url 'main:create_mailing' %}">Добавить
+                            рассылку</a>
+                        <a class="btn btn-outline-primary" href="{% url 'main:create_message' %}">Добавить
+                            сообщение</a>
+                        <a class="btn btn-outline-primary" href="{% url 'main:create_client' %}">Добавить
+                            клиента</a>
+                    </div>
+                </div>
+                <br>
+                <table class="table table-reflow">
+                    <thead>
+                    <tr class="table-active">
+                        <th>Начало</th>
+                        <th>Окончание</th>
+                        <th>Период</th>
+                        <th>Статус</th>
+                        <th>Сообщение</th>
+                        <th>Клиенты</th>
+                        <th>Действия с рассылками</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for object in object_list %}
+                        <tr class="{% if object.get_status == 'created' %}bg-warning
+                    {% elif object.get_status == 'started' %}bg-success
+                    {% elif object.get_status == 'completed' %}bg-danger
+                    {% endif %}">
+                            <td>{{ object.start_time }}</td>
+                            <td>{{ object.completion_time }}</td>
+                            <td>{{ object.frequency }}</td>
+                            <td>{{ object.get_status }}</td>
+                            <td>{{ object.message.message_subject }}</td>
+                            <td>
+                                {% for client in object.clients.all|slice:":3" %}
+                                    {{ client }}<br>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    {% if object.get_status == 'started' %}
+                                        <a href="#"
+                                           class="btn btn-sm btn-outline-warning">Отправить</a>
+                                    {% endif %}
+                                    <a href="{% url 'main:view_mailing' object.pk %}"
+                                       class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                                    <a href="{% url 'main:edit_mailing' object.pk %}"
+                                       class="btn btn-sm btn-outline-primary">Редактировать</a>
+                                    <a href="{% url 'main:delete_mailing' object.pk %}"
+                                       class="btn btn-sm btn-outline-danger">Удалить</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

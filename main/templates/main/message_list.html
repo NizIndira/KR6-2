@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div>
+        <div class="row mt-2">
+            <div class="col m-2"><br>
+                <h2 align="center">Список сообщений для рассылки</h2>
+                <br>
+                <div class="row mt-2">
+                    <div class="col m-2">
+                        <a class="btn btn-outline-primary" href="{% url 'main:create_message' %}">Добавить новое
+                            сообщение</a>
+                    </div>
+                </div>
+                <br>
+                <table class="table">
+                    <thead>
+                    <tr class="table-active">
+                        <th>Тема сообщения</th>
+                        <th>Текст сообщения</th>
+                        <th>Действия с сообщением</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            <td>{{ object.message_subject }}</td>
+                            <td>{{ object.message_text|slice:":120" }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'main:view_message' object.pk %}"
+                                       class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                                    <a href="{% url 'main:edit_message' object.pk %}"
+                                       class="btn btn-sm btn-outline-primary">Редактировать</a>
+                                    <a href="{% url 'main:delete_message' object.pk %}"
+                                       class="btn btn-sm btn-outline-danger">Удалить</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

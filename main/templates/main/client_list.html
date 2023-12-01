@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div>
+        <div class="row mt-2">
+            <div class="col m-2"><br>
+                <h2 align="center">Список всех клиентов</h2>
+                <br>
+                <div class="row mt-2">
+                    <div class="col m-2">
+                        <a class="btn btn-outline-primary" href="{% url 'main:create_client' %}">Добавить нового
+                            клиента</a>
+                    </div>
+                </div>
+                <br>
+                <table class="table">
+                    <thead>
+                    <tr class="table-active">
+                        <th>Имя клиента</th>
+                        <th>Email клиента</th>
+                        <th>Комментарий</th>
+                        <th>Действия с клиентом</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for object in object_list %}
+                        <tr>
+                            <td>{{ object.client_name }}</td>
+                            <td>{{ object.client_email }}</td>
+                            <td>{{ object.comment }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'main:view_client' object.pk %}"
+                                       class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                                    <a href="{% url 'main:edit_client' object.pk %}"
+                                       class="btn btn-sm btn-outline-primary">Редактировать</a>
+                                    <a href="{% url 'main:delete_client' object.pk %}"
+                                       class="btn btn-sm btn-outline-danger">Удалить</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

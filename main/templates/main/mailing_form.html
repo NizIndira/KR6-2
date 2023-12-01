@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <br>
+    <h2 align="center">
+        {% if object %}
+            Редактировать рассылку
+        {% else %}
+            Создать новую рассылку
+        {% endif %}
+    </h2><br><br>
+    <div class="col-md-10 mx-auto">
+        <div class="row"><br>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">
+                                {% if object %}
+                                    Сохранить
+                                {% else %}
+                                    Создать
+                                {% endif %}
+                            </button>
+                        </form>
+                        <br>
+                        <a align="center " href="{% url 'main:mailing_list' %}"
+                           class="button">Назад к списку рассылок</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <br>
+    <h2 align="center">Просмотр рассылки</h2><br><br>
+    <div class="row mx-2">
+        <table class="table table-reflow">
+            <thead>
+            <tr class="table-active">
+                <th>Начало</th>
+                <th>Окончание</th>
+                <th>Период</th>
+                <th>Статус</th>
+                <th>Сообщение</th>
+                <th>Клиенты</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ mailing.start_time }}</td>
+                <td>{{ mailing.completion_time }}</td>
+                <td>{{ mailing.frequency }}</td>
+                <td>{{ mailing.status }}</td>
+                <td>{{ mailing.message.message_subject }}</td>
+                <td>
+                    {% for client in object.clients.all|slice:":3" %}
+                        {{ client }}<br>
+                    {% endfor %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="{% url 'main:mailing_list' %}"
+           class="button">Назад к списку рассылок</a>
+    </div>
+    </div><br><br>
+{% endblock %}
