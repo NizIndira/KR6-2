@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h3>Войдите на сайт, используя вашу почту и пароль</h3><br><br>
+    </div>
+    <div class="row">
+        <div class="row">
+            <div class="col-3">
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <p>
+                                <button type="submit" class="btn btn-success">Войти</button>
+                            </p>
+                            <a href="{% url 'users:password_reset' %}" class="p-2 btn btn-warning">Забыл пароль</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %} 

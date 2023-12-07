@@ -1,45 +1,58 @@
 {% extends 'main/base.html' %}
 {% block content %}
-    <div>
-        <div class="row mt-2">
-            <div class="col m-2"><br>
-                <h2 align="center">Список сообщений для рассылки</h2>
-                <br>
-                <div class="row mt-2">
-                    <div class="col m-2">
-                        <a class="btn btn-outline-primary" href="{% url 'main:create_message' %}">Добавить новое
-                            сообщение</a>
-                    </div>
+<div>
+    <div class="row mt-2">
+        <div class="col m-2"><br>
+            {% if not perms.main.can_manager_view %}
+            <h2 align="center">Список ваших сообщений для рассылки</h2>
+            <br>
+            <div class="row mt-2">
+                <div class="col m-2">
+                    <a class="btn btn-outline-primary" href="{% url 'main:create_message' %}">Добавить новое
+                        сообщение</a>
                 </div>
-                <br>
-                <table class="table">
-                    <thead>
-                    <tr class="table-active">
-                        <th>Тема сообщения</th>
-                        <th>Текст сообщения</th>
-                        <th>Действия с сообщением</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for object in object_list %}
-                        <tr>
-                            <td>{{ object.message_subject }}</td>
-                            <td>{{ object.message_text|slice:":120" }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="{% url 'main:view_message' object.pk %}"
-                                       class="btn btn-sm btn-outline-secondary">Посмотреть</a>
-                                    <a href="{% url 'main:edit_message' object.pk %}"
-                                       class="btn btn-sm btn-outline-primary">Редактировать</a>
-                                    <a href="{% url 'main:delete_message' object.pk %}"
-                                       class="btn btn-sm btn-outline-danger">Удалить</a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
             </div>
+            {% else %}
+            <h2 align="center">Сообщения всех пользователей</h2>
+            <br>
+            {% endif %}
+            {% if message_list %}
+            <br>
+            <table class="table">
+                <thead>
+                <tr class="table-active">
+                    <th>№</th>
+                    <th>Тема сообщения</th>
+                    <th>Текст сообщения</th>
+                    <th>Действия с сообщением</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for message in message_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ message.message_subject }}</td>
+                    <td>{{ message.message_text|slice:":120" }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'main:view_message' message.pk %}"
+                               class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                            {% if not perms.main.can_manager_view %}
+                            <a href="{% url 'main:edit_message' message.pk %}"
+                               class="btn btn-sm btn-outline-primary">Редактировать</a>
+                            <a href="{% url 'main:delete_message' message.pk %}"
+                               class="btn btn-sm btn-outline-danger">Удалить</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}<br>
+            <p align="center">Вы еще ничего не создавали</p>
+            {% endif %}
         </div>
     </div>
+</div>
 {% endblock %} 

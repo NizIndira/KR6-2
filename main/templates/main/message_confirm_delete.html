@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <p>Хотите удалить сообщение "<b>{{ object.message_subject }}</b>"?</p>
+                        <p>Хотите удалить сообщение "<b>{{ message.message_subject }}</b>"?</p>
                         <button type="submit" class="btn btn-success">Подтвердить</button>
                         <a href="{% url 'main:messages_list' %}" class="btn btn-warning">Отмена</a>
                     </form>

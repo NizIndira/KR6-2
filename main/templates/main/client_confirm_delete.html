@@ -10,14 +10,14 @@
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <p>Хотите удалить клиента "<b>{{ object.client_name }}</b>"?</p>
+                        <p>Хотите удалить клиента "<b>{{ client.client_name }}</b>"?</p>
                         <button type="submit" class="btn btn-success">Подтвердить</button>
                         <a href="{% url 'main:clients_list' %}" class="btn btn-warning">Отмена</a>
                     </form>
                 </div>
             </div>
             <br>
-            <a href="{% url 'mail:clients_list' %}"
+            <a href="{% url 'main:clients_list' %}"
                class="button">Назад к списку клиентов</a>
         </div>
     </div>

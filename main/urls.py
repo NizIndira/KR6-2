@@ -1,14 +1,16 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from main.apps import MainConfig
 from main.views import ClientListView, MessageCreateView, MessageListView, MessageDetailView, MessageUpdateView, \
     MessageDelete, IndexView, MailingCreateView, ClientCreateView, MailingListView, ClientDetailView, ClientUpdateView, \
-    ClientDelete, MailingDetailView, MailingUpdateView, MailingDelete
+    ClientDelete, MailingDetailView, MailingUpdateView, MailingDelete, LogListView, MailingUpdateManagerView, \
+    MailingSendMessageView
 
 app_name = MainConfig.name
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
+    path('', cache_page(60)(IndexView.as_view()), name='index'),
 
     path('clients/create_client/', ClientCreateView.as_view(), name='create_client'),
     path('clients/clients_list/', ClientListView.as_view(), name='clients_list'),
@@ -25,6 +27,10 @@ urlpatterns = [
     path('mailings/create_mailing/', MailingCreateView.as_view(), name='create_mailing'),
     path('mailings/mailing_list/', MailingListView.as_view(), name='mailing_list'),
     path('mailings/view_mailing/<int:pk>/', MailingDetailView.as_view(), name='view_mailing'),
-    path('mailings/edit_mailing/<int:pk>/', MailingUpdateView.as_view(), name='edit_mailing'),
+    path('mailings/edit_mailing_manager/<int:pk>/', MailingUpdateManagerView.as_view(), name='edit_mailing_manager'),
+    path('mailings/manager_edit_mailing/<int:pk>/', MailingUpdateManagerView.as_view(), name='manager_edit_mailing'),
     path('mailings/delete_mailing/<int:pk>/', MailingDelete.as_view(), name='delete_mailing'),
+    path('mailings/send_mailing/<int:pk>/', MailingSendMessageView.as_view(), name='send_mailing'),
+
+    path('log/log_list/', LogListView.as_view(), name='log_list'),
 ]

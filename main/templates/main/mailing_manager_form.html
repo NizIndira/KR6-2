@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <h2 align="center">Активировать/деактивировать рассылку</h2><br><br>
+    <div class="col-md-10 mx-auto">
+        <div class="row"><br>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Рассылка c датой старта: {{ mailing.start_time }}</h6>
+                        <h6>С датой окончания: {{ mailing.completion_time }}</h6>
+                        <h6>С сообщением:<br> {{ mailing.message }}</h6><br>
+                        <h6>Владелец рассылки: {{ mailing.owner.email }} ({{ mailing.owner.first_name }})</h6><br>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                        </form>
+                        <br>
+                        <a align="center " href="{% url 'main:mailing_list' %}"
+                           class="button">Назад к списку рассылок</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

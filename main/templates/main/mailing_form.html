@@ -2,7 +2,7 @@
 {% block content %}
     <br>
     <h2 align="center">
-        {% if object %}
+        {% if mailing %}
             Редактировать рассылку
         {% else %}
             Создать новую рассылку
@@ -17,7 +17,7 @@
                             {% csrf_token %}
                             {{ form.as_p }}
                             <button type="submit" class="btn btn-success">
-                                {% if object %}
+                                {% if mailing %}
                                     Сохранить
                                 {% else %}
                                     Создать
