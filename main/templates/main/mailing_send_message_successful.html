@@ -1,0 +1,11 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <br><br>
+        <h4 align="center">
+            Рассылка была успешно отправлена!<br>
+            Посмотреть рузультаты отправки вы можете в <a href="{% url 'main:log_list' %}">логах</a>.
+        </h4>
+        <br>
+    </div>
+{% endblock %} 

@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <br>
+    <h2 align="center">Просмотр клиента</h2><br><br>
+    <div class="row mx-2">
+        <div class="col-md-4 mb-3">
+        </div>
+        <div class="col-md-8 mb-3">
+            <p><b>Имя:</b> {{ client.client_name }}</p>
+            <p><b>Email:</b> {{ client.client_email }}</p>
+            <p><b>Комментарий:</b><br>{{ client.comment }}</p><br>
+            <a href="{% url 'main:clients_list' %}"
+               class="button">Назад к списку клиентов</a>
+        </div>
+    </div><br><br>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <h2 align="center">Активировать/деактивировать пользователя</h2><br><br>
+    <div class="col-md-10 mx-auto">
+        <div class="row"><br>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Пользователь "{{ user.email }}"</h6>
+                        <h6>С именем "{{ user.first_name }}"</h6><br>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                        </form>
+                        <br>
+                        <a align="center " href="{% url 'users:users_list' %}"
+                           class="button">Назад к списку пользователей</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

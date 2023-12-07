@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <br>
+    <h2 align="center">{{ blog.title }}</h2><br><br>
+    <div class="row mx-2">
+        <div class="col-md-4 mb-3">
+            {% load media_tags %}
+            <img src="{% mediapath blog.preview %}" class="img-fluid" alt="{{ blog.title }}">
+        </div>
+        <div class="col-md-8 mb-3">
+            <p>{{ blog.description }}</p><br><br>
+            <div class="card-footer">
+                Количество просмотров статьи: {{ blog.views_count }}
+                <br><br>
+                <a align="center " href="{% url 'blog:blog_list' %}"
+                   class="button">Назад к списку статей</a>
+            </div>
+        </div>
+    </div><br>
+{% endblock %} 

@@ -1,0 +1,109 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div>
+    <div class="row mt-2">
+        <div class="col m-2"><br>
+            {% if not perms.main.can_manager_view %}
+            <h2 align="center">Все ваши рассылки</h2>
+            <p align="center">Начните сооздавать вашу первую рассылку с создания нового привлекательного
+                сообщения
+                и добавления списка получателей</p><br>
+            <div class="row mt-2">
+                <div class="col m-2">
+                    <a class="btn btn-outline-primary" href="{% url 'main:create_mailing' %}">Добавить
+                        рассылку</a>
+                    <a class="btn btn-outline-primary" href="{% url 'main:create_message' %}">Добавить
+                        сообщение</a>
+                    <a class="btn btn-outline-primary" href="{% url 'main:create_client' %}">Добавить
+                        клиента</a>
+                </div>
+            </div>
+            {% else %}
+            <h2 align="center">Рассылки всех пользователей</h2>
+            <br>
+            <div class="row mt-2">
+                <div class="col m-2">
+                    <a class="btn btn-outline-primary" href="{% url 'users:users_list' %}">Список всех
+                        пользователей</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if mailing_list %}
+            <br>
+            <table class="table table-reflow">
+                <thead>
+                <tr class="table-active">
+                    <th>№</th>
+                    <th>Сообщение</th>
+                    <th>Начало</th>
+                    <th>Окончание</th>
+                    <th>Период</th>
+                    <th>Статус</th>
+                    <th>Клиенты</th>
+                    <th>Действия с рассылками</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mailing in mailing_list %}
+                <tr class="{% if mailing.status == 'created' %}bg-warning
+                                   {% elif mailing.status == 'started' %}bg-success
+                                   {% elif mailing.status == 'completed' %}bg-danger
+                                   {% endif %}">
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ mailing.message.message_subject }}</td>
+                    <td>{{ mailing.start_time }}</td>
+                    <td>{{ mailing.completion_time }}</td>
+                    <td>{{ mailing.frequency }}</td>
+                    {% if mailing.get_status == 'created' %}
+                    <td class="text-black-50">{{ mailing.get_status }}</td>
+                    {% elif mailing.get_status == 'started' %}
+                    <td class="text-primary">{{ mailing.get_status }}</td>
+                    {% elif mailing.get_status == 'completed' %}
+                    <td class="text-success">{{ mailing.get_status }}</td>
+                    {% endif %}
+                    <td>
+                        {% for client in mailing.clients.all %}
+                        {{ client.client_email }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if not perms.main.can_manager_view %}
+                        <div class="btn-group">
+                            {% if mailing.get_status == 'created' %}
+                            <a href="{% url 'main:send_mailing' mailing.pk %}"
+                               class="btn btn-sm btn-outline-warning">Отправить</a>
+                            {% endif %}
+                            <a href="{% url 'main:view_mailing' mailing.pk %}"
+                               class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                            <a href="{% url 'main:edit_mailing' mailing.pk %}"
+                               class="btn btn-sm btn-outline-primary">Редактировать</a>
+                            <a href="{% url 'main:delete_mailing' mailing.pk %}"
+                               class="btn btn-sm btn-outline-danger">Удалить</a>
+                            {% else %}
+                            <div class="btn-group">
+                                <a href="{% url 'main:view_mailing' mailing.pk %}"
+                                   class="btn btn-sm btn-outline-secondary">Посмотреть</a>
+                                {% if mailing.is_active %}
+                                <a href="{% url 'mail:edit_mailing_manager' mailing.pk %}"
+                                   class="btn btn-sm btn-outline-danger">Деактивировать</a>
+                                {% else %}
+                                <a href="{% url 'mail:edit_mailing_manager' mailing.pk %}"
+                                   class="btn btn-sm btn-outline-success">Активировать</a>
+                                {% endif %}
+                                <a href="{% url 'users:edit_user' mailing.owner.pk %}"
+                                   class="btn btn-sm btn-outline-primary">Пользователь</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}<br>
+            <p align="center">Вы еще ничего не создавали</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <div>
+        <div class="row mt-2">
+            <div class="col m-2"><br>
+                <h2 align="center">Статьи блога</h2>
+                <br><br>
+                <table class="table table-reflow">
+                    <thead>
+                    <tr class="table-active">
+                        <th>№</th>
+                        <th>Дата публикации</th>
+                        <th>Просмотры</th>
+                        <th>Заголовок</th>
+                        <th>Прочитать</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for blog in blog_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ blog.creation_date }}</td>
+                            <td>{{ blog.views_count }}</td>
+                            <td>{{ blog.title }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{% url 'blog:blog_view' blog.pk %}"
+                                       class="btn btn-sm btn-outline-secondary">Прочитать статью</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

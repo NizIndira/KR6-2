@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% block content %}
+    <br>
+    <h2 align="center">Просмотр сообщения</h2><br><br>
+    <div class="row mx-2">
+        <div class="col-md-4 mb-3">
+
+        </div>
+        <div class="col-md-8 mb-3">
+            <p><b>Cообщение:</b> {{ message.message_subject }}</p>
+            <p><b>Содержание:</b><br>{{ message.message_text }}</p>
+            <br>
+            <a align="center " href="{% url 'main:messages_list' %}"
+               class="button">Назад к списку сообщений</a>
+        </div>
+    </div><br><br>
+{% endblock %} 

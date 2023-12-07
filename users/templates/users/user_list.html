@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div>
+    <div class="row mt-2">
+        <div class="col m-2"><br>
+            <h2 align="center">Список всех пользователей сервиса</h2>
+            <br>
+            {% if user_list %}
+            <br>
+            <table class="table">
+                <thead>
+                <tr class="table-active">
+                    <th>№</th>
+                    <th>Имя пользователя</th>
+                    <th>Email</th>
+                    <th>Телефон</th>
+                    <th>Страна</th>
+                    <th>Действия с пользователем</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in user_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.country }}</td>
+                    <td>
+                        <div class="btn-group">
+                            {% if user.is_active %}
+                            <a href="{% url 'users:edit_user' user.pk %}"
+                               class="btn btn-sm btn-outline-danger">Деактивировать</a>
+                            {% else %}
+                            <a href="{% url 'users:edit_user' user.pk %}"
+                               class="btn btn-sm btn-outline-success">Активировать</a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <a align="center " href="{% url 'main:mailing_list' %}"
+               class="button">Назад к списку рассылок</a>
+            {% else %}<br>
+            <p align="center">В сервисе еще никто не зарегистрирован!</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

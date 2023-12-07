@@ -1,0 +1,46 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div>
+    <div class="row mt-2">
+        <div class="col m-2"><br>
+            <h2 align="center">Список логов рассылки</h2>
+            {% if log_list %}
+            <br>
+            <br>
+            <table class="table">
+                <thead>
+                <tr class="table-active">
+                    <th>№</th>
+                    <th>Рассылка</th>
+                    <th>Время старта</th>
+                    <th>Время последней попытки</th>
+                    <th>Период</th>
+                    <th>Статус попытки</th>
+                    <th>Результат</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for log in log_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ log.mailing.message.message_subject }}</td>
+                    <td>{{ log.mailing.start_time }}</td>
+                    <td>{{ log.last_attempt }}</td>
+                    <td>{{ log.mailing.frequency }}</td>
+                    {% if log.status == 'success' %}
+                    <td class="text-success">{{ log.status }}</td>
+                    {% elif log.status == 'failed' %}
+                    <td class="text-danger">{{ log.status }}</td>
+                    {% endif %}
+                    <td>{{ log.message|safe }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}<br>
+            <p align="center">Еще не было запущено ни одной рассылки</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

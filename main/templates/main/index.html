@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="col-12 text-center">
+    {% if not perms.main.can_manager_view %}
+    <h1 class="mt-4 mb-5">Добро пожаловать на наш сайт сервиса управления рассылками!</h1>
+    <img src="media/home.png" alt="заставка">
+    <p></p>
+    <p>Наш сервис поможет быстро создавать рассылки, задавать им параметры, а также просматривать
+        результаты этих рассылок.</p>
+    <p>Мы стремимся сделать наш сайт максимально удобным и понятным для вас, чтобы вы могли легко использовать его для
+        своих нужд.</p>
+    <h3>Просто попробуй!</h3>
+    {% if user.is_authenticated %}
+    <a class="btn btn-outline-primary" href="{% url 'main:mailing_list' %}">Создать рассылку</a>
+    {% else %}
+    <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Войдите для создания рассылки</a>
+    {% endif %}
+    {% else %}
+    <div class="container mt-5">
+        <h2 align="center">Вы вошли с правами менеджера, вам недоступны некоторые функции сервиса!</h2>
+        {% endif %}
+    </div>
+    <br><br><br>
+    <p>
+        Всего рассылок на нашем сервисе: {{ total_mailings }}<br>
+        Количество активных рассылок: {{ active_mailings }}<br>
+        Количество уникальных клиентов для рассылок: {{ unique_clients }}<br>
+    </p><br>
+    <h4>Статьи нашего блога</h4>
+    <ul>
+        {% for blog in random_blogs %}
+        <li>
+            <a href="{% url 'blog:blog_view' blog.pk %}">{{ blog.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</div><br>
+</div>
+{% endblock %}
